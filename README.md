@@ -36,25 +36,33 @@ Basic examples which shows you how to get data.
 
 Fetching “projects” data:
 
-    #> 
-    #> Attaching package: 'dplyr'
-    #> The following objects are masked from 'package:stats':
-    #> 
-    #>     filter, lag
-    #> The following objects are masked from 'package:base':
-    #> 
-    #>     intersect, setdiff, setequal, union
-    #> [1] 598
-    #>  [1] "Diarienummer"                 "Ärenderubrik"                
-    #>  [3] "ÄrenderubrikEngelska"         "DiarienummerAnsokningsomgang"
-    #>  [5] "DiarienummerUtlysning"        "DiarienummerProgram"         
-    #>  [7] "MalSvenska"                   "ResultatSvenska"             
-    #>  [9] "ImplementationSvenska"        "MalEngelska"                 
-    #> [11] "ResultatEngelska"             "ImplementationEngelska"      
-    #> [13] "Projektreferat"               "BeviljatBidrag"              
-    #> [15] "ProjektStart"                 "ProjektSlut"                 
-    #> [17] "KoordinatorOrg"               "KoordinatorArb"              
-    #> [19] "LankLista"                    "Status"
+``` r
+library(vinnova)
+library(dplyr)
+
+# projects from the last three days
+three <- vinnova("projects", from_date = Sys.Date() - 3)
+
+# number of rows
+nrow(three)
+#> [1] 620
+
+# field names
+names(three)
+#>  [1] "Diarienummer"                 "Ärenderubrik"                
+#>  [3] "ÄrenderubrikEngelska"         "DiarienummerAnsokningsomgang"
+#>  [5] "DiarienummerUtlysning"        "DiarienummerProgram"         
+#>  [7] "MalSvenska"                   "ResultatSvenska"             
+#>  [9] "ImplementationSvenska"        "MalEngelska"                 
+#> [11] "ResultatEngelska"             "ImplementationEngelska"      
+#> [13] "Projektreferat"               "BeviljatBidrag"              
+#> [15] "ProjektStart"                 "ProjektSlut"                 
+#> [17] "KoordinatorOrg"               "KoordinatorArb"              
+#> [19] "LankLista"                    "Status"
+
+# three items displayed in a table
+three %>% slice(1:3) %>% select(1:2) %>% knitr::kable()
+```
 
 | Diarienummer | Ärenderubrik                                                                                                                |
 |:-------------|:----------------------------------------------------------------------------------------------------------------------------|
@@ -68,7 +76,7 @@ More context can be retrieved as related tables:
 
 vinnova_latest(from_date = Sys.Date())
 #> $calls
-#> # A tibble: 6 × 12
+#> # A tibble: 7 × 12
 #>   Diarie…¹ Diari…² Titel Beskr…³ Titel…⁴ Beskr…⁵ Publi…⁶ Dokum…⁷ LankL…⁸ Ansok…⁹
 #>   <chr>    <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <list>  <list>  <list> 
 #> 1 2017-02… 2014-0… "Nat… "Natio… x       x       2022-1… <df>    <list>  <df>   
@@ -77,6 +85,7 @@ vinnova_latest(from_date = Sys.Date())
 #> 4 2019-01… 2019-0… "AI … "AI - … AI - A… AI - A… 2022-1… <df>    <list>  <df>   
 #> 5 2021-03… 2019-0… "Inn… "Innov… xx      xx      2022-1… <df>    <list>  <df>   
 #> 6 2021-03… 2019-0… "AI … "AI - … AI - S… AI - S… 2022-0… <df>    <list>  <df>   
+#> 7 2022-00… 2011-0… "Glo… "Globa… xx      xx      2022-1… <df>    <list>  <df>   
 #> # … with 2 more variables: KontaktLista <list>, Publik <int>, and abbreviated
 #> #   variable names ¹​Diarienummer, ²​DiarienummerProgram, ³​Beskrivning,
 #> #   ⁴​TitelEngelska, ⁵​BeskrivningEngelska, ⁶​Publiceringsdatum, ⁷​DokumentLista,
@@ -105,7 +114,7 @@ vinnova_latest(from_date = Sys.Date())
 #> # … with abbreviated variable names ¹​Beskrivning, ²​FileName, ³​DokumentID
 #> 
 #> $calls_tbls$round_ids
-#> # A tibble: 25 × 2
+#> # A tibble: 27 × 2
 #>    Diarienummer DiarienummerAnsokningsomgang
 #>    <chr>        <chr>                       
 #>  1 2017-02932   2017-02942                  
@@ -118,11 +127,11 @@ vinnova_latest(from_date = Sys.Date())
 #>  8 2018-02053   2018-05372                  
 #>  9 2018-02053   2019-05248                  
 #> 10 2018-02053   2020-00352                  
-#> # … with 15 more rows
+#> # … with 17 more rows
 #> 
 #> 
 #> $programmes
-#> # A tibble: 12 × 6
+#> # A tibble: 13 × 6
 #>    Diarienummer Titel                            Beskr…¹ Titel…² Beskr…³ Utlys…⁴
 #>    <chr>        <chr>                            <chr>   <chr>   <chr>   <list> 
 #>  1 2009-02191   Genus och mångfald för innovati… "Tidig… Gender… "Gende… <df>   
@@ -133,16 +142,17 @@ vinnova_latest(from_date = Sys.Date())
 #>  6 2015-03143   Kompetenscentrumprogrammet       "Kompe… Compet… "Compe… <df>   
 #>  7 2016-02206   Next generation Biologics        "Reger… Next g… "Vinno… <df>   
 #>  8 2016-03566   Innovationshubbar                "Innov… Innova… "Innov… <df>   
-#>  9 2019-01294   Innovationsplattformar           "Innov… x       "x"     <df>   
-#> 10 2021-00999   Hållbar precisionshälsa i samve… "Hållb… Sustai… "Susta… <df>   
-#> 11 2021-01085   Enskilda ansökningar inom preci… "Enski… Indivi… "Indiv… <df>   
-#> 12 2021-01086   Internationella samarbeten för … "Inter… Intern… "Inter… <df>   
+#>  9 2019-00804   Artificiell intelligens          "Artif… Artifi… "Artif… <df>   
+#> 10 2019-01294   Innovationsplattformar           "Innov… x       "x"     <df>   
+#> 11 2021-00999   Hållbar precisionshälsa i samve… "Hållb… Sustai… "Susta… <df>   
+#> 12 2021-01085   Enskilda ansökningar inom preci… "Enski… Indivi… "Indiv… <df>   
+#> 13 2021-01086   Internationella samarbeten för … "Inter… Intern… "Inter… <df>   
 #> # … with abbreviated variable names ¹​Beskrivning, ²​TitelEngelska,
 #> #   ³​BeskrivningEngelska, ⁴​UtlysningDnrLista
 #> 
 #> $programmes_tbls
 #> $programmes_tbls$call_ids
-#> # A tibble: 84 × 2
+#> # A tibble: 92 × 2
 #>    Diarienummer DiarienummerUtlysning
 #>    <chr>        <chr>                
 #>  1 2009-02191   2004-03144           
@@ -155,11 +165,11 @@ vinnova_latest(from_date = Sys.Date())
 #>  8 2009-02191   2014-06304           
 #>  9 2009-02191   2018-04520           
 #> 10 2012-00741   2012-00911           
-#> # … with 74 more rows
+#> # … with 82 more rows
 #> 
 #> 
 #> $rounds
-#> # A tibble: 6 × 23
+#> # A tibble: 7 × 23
 #>   Diarie…¹ Diari…² Titel Beskr…³ Titel…⁴ Beskr…⁵ Oppni…⁶ Stang…⁷ Dagli…⁸ Avlas…⁹
 #>   <chr>    <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <chr>     <int> <list> 
 #> 1 2017-02… 2017-0… Nati… "Natio… x       x       2017-0… 2017-0…       0 <list> 
@@ -167,7 +177,8 @@ vinnova_latest(from_date = Sys.Date())
 #> 3 2019-05… 2018-0… Tysk… "Tyskl… German… German… 2019-1… 2019-1…       1 <list> 
 #> 4 2020-00… 2018-0… Sama… "I det… Collab… In thi… 2020-0… 2020-0…       0 <list> 
 #> 5 2021-03… 2021-0… Inno… "Innov… xx      xx      2021-0… 2021-1…       1 <list> 
-#> 6 2022-00… 2021-0… Kart… "Kartl… Mappin… Mappin… 2022-0… 2022-0…       1 <list> 
+#> 6 2022-00… 2022-0… Glob… "Globa… xx      xx      2022-0… 2022-1…       1 <list> 
+#> 7 2022-00… 2021-0… Kart… "Kartl… Mappin… Mappin… 2022-0… 2022-0…       1 <list> 
 #> # … with 13 more variables: UppskattatBeslutsdatum <chr>,
 #> #   TidigastProjektstart <chr>, SenastProjektstart <lgl>,
 #> #   SenastProjektslut <chr>, DokumentLista <list>, LankLista <list>,
@@ -219,7 +230,7 @@ vinnova_latest(from_date = Sys.Date())
 #> 
 #> 
 #> $projects
-#> # A tibble: 120 × 20
+#> # A tibble: 146 × 20
 #>    Diarienummer Ärende…¹ Ärend…² Diari…³ Diari…⁴ Diari…⁵ MalSv…⁶ Resul…⁷ Imple…⁸
 #>    <chr>        <chr>    <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
 #>  1 2017-03503   E!11654… E!1165… 2016-0… 2014-0… 2009-0… "Syfte… "Proje… "Delta…
@@ -232,7 +243,7 @@ vinnova_latest(from_date = Sys.Date())
 #>  8 2019-00838   Odlande… Farmin… 2017-0… 2013-0… 2011-0… "Ett p… "Odlan… "Proje…
 #>  9 2019-02088   Antenns… Antenn… 2018-0… 2014-0… 2014-0… "Proje… "Två a… "Proje…
 #> 10 2019-02383   Eureka … Eureka… 2019-0… 2016-0… 2016-0… "IVVES… "IVVES… "IVVES…
-#> # … with 110 more rows, 11 more variables: MalEngelska <chr>,
+#> # … with 136 more rows, 11 more variables: MalEngelska <chr>,
 #> #   ResultatEngelska <chr>, ImplementationEngelska <chr>, Projektreferat <chr>,
 #> #   BeviljatBidrag <int>, ProjektStart <chr>, ProjektSlut <chr>,
 #> #   KoordinatorOrg <chr>, KoordinatorArb <chr>, LankLista <list>, Status <chr>,
@@ -242,7 +253,7 @@ vinnova_latest(from_date = Sys.Date())
 #> 
 #> $projects_tbls
 #> $projects_tbls$links
-#> # A tibble: 133 × 3
+#> # A tibble: 152 × 3
 #>    Diarienummer Beskrivning                                                URL  
 #>    <chr>        <chr>                                                      <chr>
 #>  1 2017-03503   ""                                                         "htt…
@@ -255,7 +266,7 @@ vinnova_latest(from_date = Sys.Date())
 #>  8 2018-02228   "Panorama Project Main Webpage"                            "htt…
 #>  9 2018-02228   "Eclipse Capra -- Tool developed during the project"       "htt…
 #> 10 2018-03119   ""                                                         ""   
-#> # … with 123 more rows
+#> # … with 142 more rows
 ```
 
 Files can be retrieved:

@@ -40,7 +40,7 @@ Basic examples which shows you how to get data.
 
 Fetching "projects" data:
 
-```{r example, echo=FALSE}
+```{r example, message=FALSE}
 library(vinnova)
 library(dplyr)
 

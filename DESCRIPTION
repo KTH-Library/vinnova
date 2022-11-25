@@ -1,0 +1,31 @@
+Package: vinnova
+Title: Vinnova - Open Data From The Swedish Innovation Agency
+Version: 0.0.0.9000
+Authors@R: 
+    person("Markus", "Skyttner", , "markussk@kth.se", role = c("cre", "aut"))
+Description: Vinnova provides open data about programmes, calls for
+    proposals and application rounds as well as projects that have been
+    funded. This R package uses the open APIs at Vinnova to make data
+    available for use from R.
+License: MIT + file LICENSE
+URL: https://github.com/KTH-Library/vinnova,
+    https://kth-library.github.io/vinnova/
+BugReports: https://github.com/KTH-Library/vinnova/issues
+Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    dplyr,
+    httr,
+    lubridate,
+    jsonlite,
+    purrr,
+    magrittr,
+    rlang,
+    blob,
+    tibble
+Suggest:
+    blob
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2

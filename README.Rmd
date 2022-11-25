@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# vinnova
+
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/KTH-Library/vinnova/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KTH-Library/vinnova/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The goal of the R-package `vinnova` is to provide access to open data from [Vinnova - Sweden's Innovation Agency](https://www.vinnova.se/en/about-us). 
+
+The open data APIs from Vinnova covers data about programmes, calls for proposals and application rounds as well as projects that have been funded. The APIs are documented at <https://data.vinnova.se/api/> and this R package uses the open APIs at Vinnova to make data available for use from R, primarily in tabular formats .
+
+## Installation
+
+You can install the development version of vinnova from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("KTH-Library/vinnova")
+```
+
+## Example
+
+Basic examples which shows you how to get data.
+
+Fetching "projects" data:
+
+```{r example, echo=FALSE}
+library(vinnova)
+library(dplyr)
+
+# projects from the last three days
+three <- vinnova("projects", from_date = Sys.Date() - 3)
+
+# number of rows
+nrow(three)
+
+# field names
+names(three)
+
+# three items displayed in a table
+three %>% slice(1:3) %>% select(1:2) %>% knitr::kable()
+
+
+```
+More context can be retrieved as related tables:
+
+```{r}
+
+vinnova_latest(from_date = Sys.Date())
+
+```
+
+
+
+Files can be retrieved:
+
+```{r}
+
+# files from Vinnova
+filez <- vinnova_files()
+
+# number of rows
+nrow(filez)
+
+# field names
+names(filez)
+
+# display result - first few rows... (which could be inserted into a database table)
+filez %>% slice(1:5) %>% select("Titel", 1:2, "fileURL") %>% knitr::kable()
+
+```

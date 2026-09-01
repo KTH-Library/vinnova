@@ -16,6 +16,7 @@ You can install the development version of vinnova from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("KTH-Library/vinnova")
 ```
@@ -27,6 +28,7 @@ Basic examples which shows you how to get data.
 Fetching “projects” data:
 
 ``` r
+
 library(vinnova)
 library(dplyr)
 
@@ -54,15 +56,16 @@ names(three)
 three %>% slice(1:3) %>% select(1:2) %>% knitr::kable()
 ```
 
-| Diarienummer | Ärenderubrik                                                                                                                |
-|:-------------|:----------------------------------------------------------------------------------------------------------------------------|
-| 2016-02752   | Innovationstorg, Mötesplats välfärdsteknologi och e-hälsa                                                                   |
-| 2016-04632   | Hållbar Konsumtion och Beteendefinans                                                                                       |
-| 2017-03503   | E!11654, ENEFRF, Energy Efficient PET Cancer Diagnostics: Novel RF Source for Radioisotope Production, ComHeat Microwave AB |
+| Diarienummer | Ärenderubrik |
+|:---|:---|
+| 2016-02752 | Innovationstorg, Mötesplats välfärdsteknologi och e-hälsa |
+| 2016-04632 | Hållbar Konsumtion och Beteendefinans |
+| 2017-03503 | E!11654, ENEFRF, Energy Efficient PET Cancer Diagnostics: Novel RF Source for Radioisotope Production, ComHeat Microwave AB |
 
 More context can be retrieved as related tables:
 
 ``` r
+
 
 vinnova_latest(from_date = Sys.Date())
 #> $calls
@@ -263,6 +266,7 @@ Files can be retrieved:
 
 ``` r
 
+
 # files from Vinnova
 filez <- vinnova_files()
 
@@ -279,13 +283,13 @@ names(filez)
 filez %>% slice(1:5) %>% select("Titel", 1:2, "fileURL") %>% knitr::kable()
 ```
 
-| Titel                                                                                   | file              | Diarienummer | fileURL                                          |
-|:----------------------------------------------------------------------------------------|:------------------|:-------------|:-------------------------------------------------|
-| CLUSTER DESCRIPTION - template                                                          | blob\[42.09 kB\]  | 2017-02942   | <https://data.vinnova.se/api/file/2017-02942_10> |
-| CV attachment - template                                                                | blob\[27.47 kB\]  | 2017-02942   | <https://data.vinnova.se/api/file/2017-02942_11> |
-| Nationella Flygtekniska Forsknings Programmet 7 - utlysningstext (reviderad 2017-09-18) | blob\[345.27 kB\] | 2017-02942   | <https://data.vinnova.se/api/file/2017-02942_14> |
-| Projektbeskrivning - mall                                                               | blob\[36.94 kB\]  | 2017-02942   | <https://data.vinnova.se/api/file/2017-02942_5>  |
-| CV-mall                                                                                 | blob\[26.73 kB\]  | 2017-02942   | <https://data.vinnova.se/api/file/2017-02942_6>  |
+| Titel | file | Diarienummer | fileURL |
+|:---|:---|:---|:---|
+| CLUSTER DESCRIPTION - template | blob\[42.09 kB\] | 2017-02942 | <https://data.vinnova.se/api/file/2017-02942_10> |
+| CV attachment - template | blob\[27.47 kB\] | 2017-02942 | <https://data.vinnova.se/api/file/2017-02942_11> |
+| Nationella Flygtekniska Forsknings Programmet 7 - utlysningstext (reviderad 2017-09-18) | blob\[345.27 kB\] | 2017-02942 | <https://data.vinnova.se/api/file/2017-02942_14> |
+| Projektbeskrivning - mall | blob\[36.94 kB\] | 2017-02942 | <https://data.vinnova.se/api/file/2017-02942_5> |
+| CV-mall | blob\[26.73 kB\] | 2017-02942 | <https://data.vinnova.se/api/file/2017-02942_6> |
 
 # Package index
 
